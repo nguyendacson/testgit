@@ -1,0 +1,215 @@
+﻿@using HRM
+@{
+    ViewData["Title"] = @Localizer["RecruitmentRequest"];
+    var date = DateTime.Now.ToString("dd/MM/yyyy");
+    var now = DateTime.Now;
+    var generateNo = "BS" + now.ToString("yyMMddHHmm");
+}
+<style>
+    .mainRecuitment{
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;           /* ← quan trọng: ngăn toàn bộ container cuộn */
+    }
+
+    th, td{
+        border:1px solid #000;
+        text-align:center;
+        padding:4px;
+        font-size:14px;
+    }
+
+    .sign{
+        height:70px;
+    }
+
+    .date{
+        height:28px;
+    }
+    .header1 .title {
+        font-size: 13px;
+        width: 110px;
+        font-weight: bold;
+    }
+
+    .body_title .title {
+        font-size: 18px;
+        font-weight: bold;
+    }
+    .table{
+        font-size:13px;
+        table-layout:auto;
+    }
+    .tableProcess{
+        font-size:13px;
+        width:100%;
+
+    }
+
+
+.fixed-width {
+    min-width: 125px;
+}
+.fixed-width-salary {
+    min-width: 95px;
+}
+.date-picker{
+    width: 150px;
+}
+.auto-width {
+    min-width: 80px !important;
+    width:auto;
+}
+
+.text-center{
+    font-size:13px;
+}
+
+.table-wrapper {
+    width: 100%;
+    max-width: 100%;
+    overflow: auto;
+}
+.table-wrapper th{
+    background-color: var(--bg-header-table)
+}
+
+.btn{
+    font-size:15px; 
+    font-weight: bold
+}
+
+.btn-custom {
+    border-radius: 8px;
+    border: 2px solid rgba(0,0,0,0.15);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    transition: all 0.25s ease;
+}
+
+/* Hover nổi lên */
+.btn-custom:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.25);
+}
+
+/* Click effect */
+.btn-custom:active {
+    transform: scale(0.97);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Secondary (Hủy) tinh chỉnh nhẹ */
+.btn-secondary.btn-custom {
+    border-color: #6c757d;
+}
+
+/* Success (Tạo đơn) nổi hơn */
+.btn-success.btn-custom {
+    border-color: #198754;
+    box-shadow: 0 4px 10px rgba(25,135,84,0.3);
+}
+
+.btn-success.btn-custom:hover {
+    box-shadow: 0 10px 20px rgba(25,135,84,0.4);
+}
+</style>
+
+<div class="mainRecuitment mx-3 my-2 bg-white p-3 rounded-3 shadow-sm">    
+    <div class="header1">
+        <div class="d-flex gap-2">
+            <span class="title">
+                Ngày đề nghị :
+                <br />(起案日)
+            </span>
+            @* <span class="main">@date</span> *@
+            <span id="date" class="main"></span>
+        </div>
+        <div class="d-flex gap-2">
+            <span class="title">
+                Người đề nghị :
+                <br />(起案日)
+            </span>
+            <span class="main">Nguyễn Văn A</span>
+        </div>
+        <div class="d-flex gap-2">
+            <span class="title">
+                No :
+                <br />(起案日)
+            </span>
+            <span id="generateNo" class="main"></span>
+            @* <span class="main">@generateNo</span> *@
+        </div>
+    </div>
+    <div class="body px-2 justify-content-center mt-3" style="width:100%">
+        <div class="body_title" style="width:100%">
+            <span class="title text-center d-block position-sticky">
+                ĐỀ NGHỊ TUYỂN DỤNG NHÂN SỰ MỚI
+                <br />(新入社員採用申請書)
+            </span>
+            <button type="button"
+                    class="btn btn-primary btn-custom d-flex align-items-center justify-content-center gap-2"
+                    data-item="something"
+                    onclick="addRow()">
+                @* <img src="~/icons/folder-add.svg" /> *@
+                <i class="fa-solid fa-plus fa-lg" style="color: rgb(255, 255, 255);"></i>
+                <span>@Localizer["Add"]</span>
+            </button>
+
+            <div class="table-wrapper mt-2" id="tableContainer"></div>
+    </div>
+            @* PROCESS *@
+            <div class="justify-content-center align-items-center mt-5">
+                <span class="d-flex align-items-center gap-1">
+                    <img src="~/icons/process.svg" />
+                    <span style="color:rgb(18, 5, 255)">Lưu trình ký duyệt</span>
+                </span>
+                
+                <table class="tableProcess mt-2">
+                    <thead class="header2">
+                        <tr>
+                            <th class="text-center">#</th>
+                            <th class="text-center">Công đoạn</th>
+                            <th class="text-center">Mã nhân viên</th>
+                            <th class="text-center">Người phụ trách</th>
+                            <th class="text-center">Email</th>
+                            @* <th class="text-center">Trạng thái</th> *@
+                        </tr>
+                    </thead>
+            
+                    <tbody id="tableBodyProcess"></tbody>
+                </table>
+            </div>
+
+           
+                <div class="input-group date-picker">
+                    <input type="text"
+                           data-sort="${step.sort}"
+                           data-step="${step.sort}"
+                           value="${defaultValue}"
+                           placeholder="dd/MM/yyyy"
+                           class="form-control form-control-sm ${cssClass}">
+                    <span class="input-group-text">
+                        <i class="fa-regular fa-calendar"></i>
+                    </span>
+                </div>
+
+            <div class="w-100 d-flex justify-content-center gap-4 mt-5">
+                <button type="button"
+                        class="btn btn-secondary btn-custom d-flex align-items-center justify-content-center gap-2"
+                        style="width:100px"
+                        onclick="clearData()">
+                    <i class="fa-solid fa-xmark fa-lg"></i>
+                    <span>Hủy</span>
+                </button>
+                <button type="button"
+                        class="btn btn-success btn-custom d-flex align-items-center justify-content-center gap-2"
+                        style="width:150px"
+                        onclick="submitData()">
+                    <i class="fa-solid fa-file-circle-plus fa-lg" style="color: rgb(255, 255, 255);"></i>
+                    <span>Tạo đơn</span>
+                </button>
+            </div>
+    </div>
+</div>
+<script src="~/js/hrmanagement/recuitmentrequestnew.js" asp-append-version="true"></script>

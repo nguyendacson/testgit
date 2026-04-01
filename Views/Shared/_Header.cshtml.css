@@ -1,0 +1,119 @@
+﻿.header {
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1030;
+    box-shadow: 0 2px 6px #A1BCF6;
+    overflow: visible;
+}
+
+.mainIcon {
+    width: 35px;
+    height: 35px;
+    border-radius: 35%;
+    border: 1px solid #C9DAFF;
+    background-color: color-mix(in oklab, #5D90FF 12%, #5D90FF);
+}
+    .mainIcon img {
+        border-radius: 35%;
+    }
+
+.center-flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navbar {
+    background-color: #377DFF;
+    position: relative;
+    overflow: visible;
+    z-index: 1030;
+    height: 50px;
+}
+
+    .navbar .dropdown-menu {
+        z-index: 1050;
+    }
+
+
+.infor i {
+    transition: transform 0.3s;
+}
+
+.dropdown.show .infor i {
+    transform: rotate(180deg);
+}
+
+.dropdown {
+    width: 141px;
+    height: 32px;
+
+    .btn-drop {
+        color: white !important;
+    }
+}
+
+.dropdown-menu {
+    min-width: 141px !important;
+    width: 141px !important;
+}
+
+.dropdown .btn-drop {
+    width: 100%;
+    justify-content: space-between
+}
+
+.avatar {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+}
+
+.namepage {
+    color: white;
+    font-size: 30px;
+}
+
+.btn:hover {
+    background-color: #37AFE1;
+}
+
+.header-right div {
+    color: white;
+}
+
+.dropdown-menu-end {
+    width: 150px !important
+}
+
+.toggle-btn {
+    width: 32px;
+    height: 32px;
+    border: 1px solid white;
+    border-radius: 6px;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+    /* icon */
+    .toggle-btn i {
+        color: white;
+        font-size: 14px;
+        transition: transform 0.2s ease;
+    }
+
+    /* hover */
+    .toggle-btn:hover {
+        background-color: #0059FF !important;
+        transform: scale(1.05);
+    }
+
+    /* click (ấn xuống) */
+    .toggle-btn:active {
+        transform: scale(0.92);
+    }

@@ -1,0 +1,341 @@
+﻿@{
+    var currentController = ViewContext.RouteData.Values["Controller"]?.ToString();
+    var currentAction = ViewContext.RouteData.Values["Action"]?.ToString();
+
+    Func<string, string, string> isActive = (ctrl, act) =>
+        (currentController == ctrl && currentAction == act) ? "active" : "";
+
+    Func<string, bool> isMenuOpen = (ctrl) =>
+        currentController == ctrl;
+}
+
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-inner">
+        <nav class="nav flex-column ">
+            <button class="toggle-btn"
+                    id="toggleSidebar"
+                    style=" width:30px;
+                height:30px;
+                border:1px solid white;
+                border-radius:50%;
+                background:none;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                z-index: 5;
+                position:absolute;
+                top:36px;">
+                <i class="bi bi-chevron-right" style="color:black; font-weight: bold; font-size: 20px;                        align-items:center;
+                justify-content:center;"></i>
+            </button>
+
+        
+            <!-- DASHBOARD -->
+            <a id="onelever" class="nav-link flex-grow-1  @isActive("Home", "Index")"
+                   href="@Url.Action("Index", "Home")">
+                <div class="d-flex align-items-center">
+                    <i class="fa-solid fa-chart-column"></i>
+                    <span>@Localizer["Dashboard"]</span>
+                </div>
+            </a>
+            @* RequestSummary *@
+            <a id="onelever" class="nav-link d-flex justify-content-between align-items-center @(isMenuOpen("Item") ? "active" : "")"
+                   data-bs-toggle="collapse"
+                   data-bs-target="#RequestSummary">
+                <i class="fa-regular fa-pen-to-square"></i>
+                <span>
+                    @Localizer["RequestSummary"]
+                    <i class="fa-solid fa-caret-down"></i>
+                </span>
+            </a>
+            <div class="seconditem collapse ps-3 @(isMenuOpen("Item") ? "show" : "")" id="RequestSummary">
+                <a class="nav-link @isActive("Item", "Index")"
+                       href="/ad/item-management">
+                    <i class="fa-solid fa-circle fa-2xs"></i>
+                    @Localizer["Approval"]
+                </a>
+                <a class="nav-link @isActive("Item", "Index")"
+                       href="/ad/item-management">
+                    <i class="fa-solid fa-circle fa-2xs"></i>
+                    @Localizer["History"]
+                </a>
+            </div>
+
+            @* InternalNews *@
+            <a id="onelever" class="nav-link d-flex justify-content-between align-items-center @(isMenuOpen("Home") && currentAction == "Privacy" ? "active" : "")"
+                   data-bs-toggle="collapse"
+                   data-bs-target="#InternalNews">
+                <i class="fa-regular fa-newspaper"></i>
+                <span>
+                    @Localizer["InternalNews"]
+                    <i class="fa-solid fa-caret-down"></i>
+                </span>
+
+            </a>
+            <div class=" seconditem collapse ps-3 @(isMenuOpen("Home") && currentAction == "Privacy" ? "show" : "")"
+                 id="InternalNews">
+
+                <a class="nav-link @isActive("Home", "Privacy")"
+                       href="@Url.Action("Privacy", "Home")">
+                    <i class="fa-solid fa-circle fa-2xs"></i>
+                    @Localizer["Notification"]
+                </a>
+                <a class="nav-link @isActive("Home", "Privacy")"
+                       href="@Url.Action("Privacy", "Home")">
+                    <i class="fa-solid fa-circle fa-2xs"></i>
+                    @Localizer["PolicyRegulation"]
+                </a>
+            </div>
+
+            @* HRManagement *@
+            <a class="nav-link d-flex justify-content-between align-items-center @(isMenuOpen("HrManagement") ? "active" : "")"
+                   data-bs-toggle="collapse"
+                   data-bs-target="#HRManagement">
+
+                <i class="fa-solid fa-users"></i>
+                <span>
+                    @Localizer["HRManagement"]
+                    <i class="fa-solid fa-caret-down"></i>
+                </span>
+
+            </a>
+
+            <div class=" seconditem collapse ps-3 @(isMenuOpen("HrManagement") ? "show" : "")"
+                 id="HRManagement">
+
+                <a class="nav-link @isActive("Home", "Privacy")"
+                       href="@Url.Action("Privacy", "Home")">
+                    <i class="fa-solid fa-circle fa-2xs"></i>
+                    @Localizer["CompanyOrgChart"]
+                </a>
+
+                <a class="nav-link @isActive("Home", "Privacy")"
+                       href="@Url.Action("Privacy", "Home")">
+                    <i class="fa-solid fa-circle fa-2xs"></i>
+                    @Localizer["PersonalOrgChart"]
+                </a>
+
+                @* EmployeeProfile *@
+                <a class="nav-link d-flex justify-content-between align-items-center
+                    @((currentController == "HrManagement" &&
+                                                                                  (currentAction == "Privacy" || currentAction == "ListEmployee"))
+                                                                                  ? "active" : "")"
+                       data-bs-toggle="collapse"
+                       data-bs-target="#EmployeeProfile">
+
+                    <span>
+                        <i class="fa-solid fa-circle fa-2xs"></i>
+                        @Localizer["EmployeeProfile"]
+                    </span>
+
+                    <i class="fa-solid fa-caret-down"></i>
+                </a>
+
+                <div class="collapse ps-3
+                    @((currentController == "HrManagement" &&
+                                                                              (currentAction == "Privacy" || currentAction == "ListEmployee"))
+                                                                              ? "show" : "")"
+                     id="EmployeeProfile">
+
+                    <a class="nav-link @isActive("HrManagement", "ListEmployee")"
+                           href="@Url.Action("ListEmployee", "HrManagement")">
+                        @Localizer["ListEmployee"]
+                    </a>
+
+                    <a class="nav-link @isActive("HrManagement", "Privacy")"
+                           href="@Url.Action("Privacy", "HrManagement")">
+                        @Localizer["AddEmployee"]
+                    </a>
+                </div>
+
+                <a class="nav-link @isActive("HrManagement", "RecuitmentRequestNew")"
+                       href="@Url.Action("RecuitmentRequestNew", "HrManagement")">
+                    <i class="fa-solid fa-circle fa-2xs"></i>
+                    @Localizer["RecruitmentRequestNew"]
+                </a>
+
+                <a class="nav-link @isActive("Home", "Privacy")"
+                       href="@Url.Action("Privacy", "Home")">
+                    <i class="fa-solid fa-circle fa-2xs"></i>
+                    @Localizer["PersonnelTransfer"]
+                </a>
+
+                <a class="nav-link @isActive("Home", "Privacy")"
+                       href="@Url.Action("Privacy", "Home")">
+                    <i class="fa-solid fa-circle fa-2xs"></i>
+                    @Localizer["LaborContract"]
+                </a>
+
+                <a class="nav-link @isActive("Home", "Privacy")"
+                       href="@Url.Action("Privacy", "Home")">
+                    <i class="fa-solid fa-circle fa-2xs"></i>
+                    @Localizer["Resignation"]
+                </a>
+
+                <a class="nav-link @isActive("Home", "Privacy")"
+                       href="@Url.Action("Privacy", "Home")">
+                    <i class="fa-solid fa-circle fa-2xs"></i>
+                    @Localizer["Evaluation"]
+                </a>
+
+                <a class="nav-link @isActive("Home", "Privacy")"
+                       href="@Url.Action("Privacy", "Home")">
+                    <i class="fa-solid fa-circle fa-2xs"></i>
+                    @Localizer["Equipment"]
+                </a>
+
+            </div>
+     
+            @* AttendanceManagement *@
+            <a class="nav-link d-flex justify-content-between align-items-center @(isMenuOpen("Item") ? "active" : "")"
+                   data-bs-toggle="collapse"
+                   data-bs-target="#AttendanceManagement">
+                <i class="fa-solid fa-list-check"></i>
+                <span>
+                    @Localizer["AttendanceManagement"]
+                    <i class="fa-solid fa-caret-down"></i>
+                </span>
+            </a>
+            <div class="seconditem collapse ps-3 @(isMenuOpen("Item") ? "show" : "")" id="AttendanceManagement">
+                <a class="nav-link @isActive("Item", "Index")"
+                       href="/ad/item-management">
+                    <i class="fa-solid fa-circle fa-2xs"></i>
+                    @Localizer["TodayAttendance"]
+                </a>
+                <a class="nav-link @isActive("Item", "Index")"
+                       href="/ad/item-management">
+                    <i class="fa-solid fa-circle fa-2xs"></i>
+                    @Localizer["AttendanceDetail"]
+                </a>
+                <a class="nav-link @isActive("Item", "Index")"
+                       href="/ad/item-management">
+                    <i class="fa-solid fa-circle fa-2xs"></i>
+                    @Localizer["Overtime"]
+                </a>
+                <a class="nav-link @isActive("Item", "Index")"
+                       href="/ad/item-management">
+                    <i class="fa-solid fa-circle fa-2xs"></i>
+                    @Localizer["LeaveRequest"]
+                </a>
+                <a class="nav-link @isActive("Item", "Index")"
+                       href="/ad/item-management">
+                    <i class="fa-solid fa-circle fa-2xs"></i>
+                    @Localizer["AttendanceSummary"]
+                </a>
+            </div>
+
+            @* WorkHistory *@
+            <a class="nav-link @isActive("", "Index")"
+                   href="@Url.Action("Index", "Home")">
+                <div class="d-flex align-items-center">
+                    <i class="fa-solid fa-arrow-up-right-dots"></i>
+                    <span>    @Localizer["WorkHistory"]</span>
+                </div>
+            </a>
+
+            @* SalaryAndBenefits *@
+            <a class="nav-link d-flex justify-content-between align-items-center @(isMenuOpen("Item") ? "active" : "")"
+                   data-bs-toggle="collapse"
+                   data-bs-target="#SalaryAndBenefits">
+                <i class="fa-solid fa-dollar-sign"></i>
+                <span>
+                    @Localizer["SalaryAndBenefits"]
+                    <i class="fa-solid fa-caret-down"></i>
+                </span>
+            </a>
+            <div class="seconditem collapse ps-3 @(isMenuOpen("Item") ? "show" : "")" id="SalaryAndBenefits">
+                <a class="nav-link @isActive("Item", "Index")"
+                       href="/ad/item-management">
+                    <i class="fa-solid fa-circle fa-2xs"></i>
+                    @Localizer["EmployeeSalary"]
+                </a>
+                <a class="nav-link @isActive("Item", "Index")"
+                       href="/ad/item-management">
+                    <i class="fa-solid fa-circle fa-2xs"></i>
+                    @Localizer["SalaryCalculation"]
+                </a>
+                <a class="nav-link @isActive("Item", "Index")"
+                       href="/ad/item-management">
+                    <i class="fa-solid fa-circle fa-2xs"></i>
+                    @Localizer["Payroll"]
+                </a>
+                <a class="nav-link @isActive("Item", "Index")"
+                       href="/ad/item-management">
+                    <i class="fa-solid fa-circle fa-2xs"></i>
+                    @Localizer["Insurance"]
+                </a>
+                <a class="nav-link @isActive("Item", "Index")"
+                       href="/ad/item-management">
+                    <i class="fa-solid fa-circle fa-2xs"></i>
+                    @Localizer["PersonalIncomeTax"]
+                </a>
+                <a class="nav-link @isActive("Item", "Index")"
+                       href="/ad/item-management">
+                    <i class="fa-solid fa-circle fa-2xs"></i>
+                    @Localizer["Bonus"]
+                </a>
+            </div>
+        
+            @* AnomalyHandling *@
+            <a class="nav-link @isActive("", "Index")"
+                   href="@Url.Action("Index", "Home")">
+                <div class="d-flex justify-content-between">
+                    <i class="bi bi-exclamation-square"></i>
+                    <span>  @Localizer["AnomalyHandling"]</span>
+                </div>
+            </a>
+
+            @* Recruitment *@
+            <a class="nav-link d-flex justify-content-between align-items-center @(isMenuOpen("Item") ? "active" : "")"
+                   data-bs-toggle="collapse"
+                   data-bs-target="#Recruitment">
+                <i class="bi bi-person-plus"></i>
+                <span>
+                    @Localizer["Recruitment"]
+                    <i class="fa-solid fa-caret-down"></i>
+                </span>
+            </a>
+            <div class="seconditem collapse ps-3 @(isMenuOpen("Item") ? "show" : "")" id="Recruitment">
+                <a class="nav-link @isActive("Item", "Index")"
+                       href="/ad/item-management">
+                    <i class="fa-solid fa-circle fa-2xs"></i>
+                    @Localizer["AnomalyHandling"]
+                </a>
+                <a class="nav-link @isActive("Item", "Index")"
+                       href="/ad/item-management">
+                    <i class="fa-solid fa-circle fa-2xs"></i>
+                    @Localizer["RecuitmentRequest"]
+                </a>
+                <a class="nav-link @isActive("Item", "Index")"
+                       href="/ad/item-management">
+                    <i class="fa-solid fa-circle fa-2xs"></i>
+                    @Localizer["InterviewList"]
+                </a>
+            </div>
+        
+            @* WorkSchedule *@
+            <a class="nav-link d-flex justify-content-between align-items-center @(isMenuOpen("Item") ? "active" : "")"
+                   data-bs-toggle="collapse"
+                   data-bs-target="#WorkSchedule">
+                <i class="fa-regular fa-calendar-days"></i>
+                <span>
+                    @Localizer["WorkSchedule"]
+                    <i class="fa-solid fa-caret-down"></i>
+                </span>
+            </a>
+            <div class="seconditem collapse ps-3 @(isMenuOpen("Item") ? "show" : "")" id="WorkSchedule">
+                <a class="nav-link @isActive("Item", "Index")"
+                       href="/ad/item-management">
+                    <i class="fa-solid fa-circle fa-2xs"></i>
+                    @Localizer["ViewSchedule"]
+                </a>
+                <a class="nav-link @isActive("Item", "Index")"
+                       href="/ad/item-management">
+                    <i class="fa-solid fa-circle fa-2xs"></i>
+                    @Localizer["AddSchedule"]
+                </a>
+            </div>
+        </nav>
+
+    </div>
+</div>

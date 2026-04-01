@@ -1,0 +1,78 @@
+﻿<header class="header">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark box-shadow py-2 px-2 border-0">
+        <div class="container-fluid ">
+            <div class="namepage fw-bold d-flex align-items-center gap-5"
+                 asp-area="" asp-controller="Home" asp-action="Index">
+                <div class="gap-2 center-flex">
+                    <div class="mainIcon center-flex ">
+                        <img src="~/icons/buildingmain.svg" width="24" height="24" alt="icon" />
+                    </div>
+                    <p class="fw-bold m-0">HRM</p>
+                </div>
+
+                @* <button class="toggle-btn"
+                        id="toggleSidebar"
+                        style="width:28px;height:28px;border:1px solid white;border-radius:6px;background:none">
+                    <i class="fa-solid fa-bars" style="color:white;font-size:14px;"></i>
+                </button> *@
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="navbar-collapse gap-4 collapse d-sm-inline-flex justify-content-end header-right">
+
+                <div class="d-flex align-items-center gap-1">
+                    <span style="width:15px; height:15px; border-radius:50%; background-color:greenyellow; flex-shrink:0;"></span>
+                    <span id="clock" class="fw-semibold"></span>
+                </div>
+
+                <div class="dropdown align-self-center p-1 border-0">
+                    <button class="btn-drop btn btn-link text-decoration-none dropdown-toggle d-flex align-items-center gap-2 px-1 py-0 border-0"
+                            type="button" data-bs-toggle="dropdown">
+                        🌐 <span>@System.Globalization.CultureInfo.CurrentCulture.DisplayName</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        @foreach (Language lang in Enum.GetValues<Language>())
+                        {
+                            <li>
+                                <form method="post"
+                                      asp-controller="Language"
+                                      asp-action="Change">
+                                    <input type="hidden" name="culture"
+                                           value="@lang.GetCultureCode()" />
+                                    <input type="hidden" name="returnUrl"
+                                           value="@Context.Request.Path" />
+                                    <button type="submit" class="dropdown-item">
+                                        @lang.GetDisplayName()
+                                    </button>
+                                </form>
+                            </li>
+                        }
+                    </ul>
+                </div>
+                <div class="dropdown2">
+                    <div class="infor py-2 px-3 d-flex gap-2  align-items-center justify-content-between rounded-3"
+                         data-bs-toggle="dropdown"
+                         style="cursor: pointer;">
+                        <span class="nameUser">Nguyễn Văn A</span>
+                        <span class="permission">(20012)</span>
+ 
+                        <i class="fa-solid fa-caret-down"></i>
+                    </div>
+
+                    <ul class="dropdown-menu dropdown-menu-end" style="margin-right:20px">
+                        <li>
+                            <a class="dropdown-item" href="#">Thông tin</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item text-danger" href="#">Đăng xuất</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </nav>
+</header>

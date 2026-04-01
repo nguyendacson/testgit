@@ -1,0 +1,124 @@
+﻿/*.sidebar {
+    position: fixed;
+    top: 51px;
+    left: 0;
+    width: 225px;
+    height: calc(100vh - 75px);
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 6px;
+    padding-right:20px;
+    overflow-y: auto;
+    transition: all 0.3s ease;
+    z-index: 2;*/
+/*    bottom: 45px !important;*/
+    /*overflow: visible;
+}*/
+
+.sidebar {
+    position: fixed;
+    top: 51px;
+    left: 0;
+    width: 225px;
+    height: calc(100vh - 75px);
+    background-color: white;
+    z-index: 2;
+    overflow: visible; /* ✅ cho phép button lòi ra */
+}
+
+.sidebar-inner {
+    height: 100%;
+    overflow-y: auto; /* ✅ scroll nằm ở đây */
+
+    padding: 6px;
+    padding-right: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.toggle-btn {
+    position: absolute;
+    top: 40px;
+    right: -18px;
+
+    width: 30px;
+    height: 30px;
+
+    z-index: 10; /* 🔥 quan trọng */
+}
+.sidebar {
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.08);
+}
+
+    .sidebar.collapsed {
+/*        margin-left: -165px;*/
+        margin-left: 0px;
+    }
+
+    .sidebar.hinditem .nav-link span {
+        display: none;
+    }
+    .sidebar.hinditem .seconditem {
+        display: none;
+    }
+
+    .sidebar.hind{
+        width: 70px;
+    }
+
+    .sidebar .nav-link {
+        color: black;
+        padding: 8px 10px;
+        border-radius: 8px;
+        margin: 4px 0;
+        transition: all 0.2s;
+    }
+
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            background: #377DFF;
+            color: white;
+        }
+
+        .sidebar .nav-link i {
+            width: 25px;
+            text-align: center;
+        }
+        .sidebar .nav-link span {
+            padding-left:10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center; /* thêm để căn giữa dọc */
+            flex-grow: 1;
+        }
+
+/*.bi {
+    margin-left: 4px;
+    margin-right: 4px
+}*/
+/* icon */
+.toggle-btn {
+    background-color: #377DFF !important;
+    color: white;
+    font-size: 14px;
+    display: grid;
+    place-items: center;
+    transition: transform 0.2s ease;
+}
+
+/* hover */
+.toggle-btn:hover {
+    background-color: #0059FF !important;
+    transform: scale(1.05);
+}
+
+/* click (ấn xuống) */
+.toggle-btn:active {
+    transform: scale(0.92);
+}
+    /* khi active (đã click) */
+    .toggle-btn.active i {
+        transform: rotate(180deg);
+    }
